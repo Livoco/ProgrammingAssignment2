@@ -8,7 +8,6 @@
 ## my_cm$get()  
 ## my_cm$getInv()
 ## inverse <- cacheSolve(my_cm) #solve the inverse for the first time
-## my_cm$setInv(inverse) 
 ## my_cm$getInv()
 ## inverse <- cacheSolve(my_cm) #return a cached value after first time# 
 
@@ -20,8 +19,7 @@
 ## If `inverse` is assigned to a non-NULL but wrong value, the object behaves 
 ## as nothing happens, even the content of the cached inverse matrix has been
 ## changed.
-## Be sure to use object$set(inverse = cacheSolve(object)) or the way as the
-## above example has shown.
+## Be sure to use object$set(inverse = cacheSolve(object))
 ## 
 ## To confirm the inverse is correct, you can do my_cm$get() %*% my_cm$getInv()
 ## An identity matrix which is of the same dimensions as 'x' is expected.
@@ -70,6 +68,7 @@ cacheSolve <- function(x, ...) {
         inv <- x$getInv()
         if(is.null(inv)) {
                 inv <- solve(x$get())
+                x$setInv(inv)
                 return(inv)
         }
         else {
